@@ -61,10 +61,13 @@ def output_console(valutes_list):
         print('Введите номер валюты или введите "x" что бы завершить программу')
         answer = input(">> ")
         if answer.isdigit():
-            get_courses(valutes_list[int(answer)])
-            find_max_min_mid(valutes_list[int(answer)])
-            print("{}\n\n{}".format(valutes_list[int(answer)].get_info(), valutes_list[int(answer)].get_status()))
-            input("Введите любой символ для продолжения ")
+            if int(answer) > len(valutes):
+                print("Невозможное значение")
+            else:
+                get_courses(valutes_list[int(answer)])
+                find_max_min_mid(valutes_list[int(answer)])
+                print("{}\n\n{}".format(valutes_list[int(answer)].get_info(), valutes_list[int(answer)].get_status()))
+                input("Введите любой символ для продолжения ")
 
         elif answer.lower() == "x":
             print("Выход")
