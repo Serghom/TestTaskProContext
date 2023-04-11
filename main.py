@@ -1,6 +1,6 @@
 import requests
 import subprocess
-import gui as g
+# import gui as g
 import valute as v
 import xml.etree.ElementTree as ET
 from datetime import date, timedelta
@@ -26,11 +26,10 @@ def create_valute_date(req):
     return data_list
 
 
-def get_courses(valutes_list):
+def get_courses(val):
     date1, date2 = get_dates()
-    for val in valutes_list:
-        data_list = create_valute_date(create_requsts(date1, date2, val.id))
-        val.set_values(data_list)
+    data_list = create_valute_date(create_requsts(date1, date2, val.id))
+    val.set_values(data_list)
 
 
 def get_data_cbr():
@@ -46,11 +45,33 @@ def create_valutes():
     return valutes_list
 
 
-def find_max_min_mid(valutes_list):
-    for val in valutes_list:
-        val.find_max()
-        val.find_min()
-        val.find_mid()
+def find_max_min_mid(val):
+    val.find_max()
+    val.find_min()
+    val.find_mid()
+
+
+
+def output_console(valutes_list):
+    valutes = ["{} | {}".format(valute.char_code, valute.name) for valute in valutes_list]
+    done = True
+    while done:
+        for i, valute in enumerate(valutes):
+            print("{} {}".format(i, valute))
+        print('Введите номер валюты или введите "x" что бы завершить программу')
+        answer = input(">> ")
+        if answer.isdigit():
+            get_courses(valutes_list[int(answer)])
+            find_max_min_mid(valutes_list[int(answer)])
+            print("{}\n\n{}".format(valutes_list[int(answer)].get_info(), valutes_list[int(answer)].get_status()))
+            input("Введите любой символ для продолжения ")
+
+        elif answer.lower() == "x":
+            print("Выход")
+            done = False
+
+        else:
+            print("Неизвестное значение")
 
 
 if __name__ == '__main__':
@@ -66,11 +87,7 @@ if __name__ == '__main__':
 
     if internet:
         valutes_list = create_valutes()
-        get_courses(valutes_list)
-        find_max_min_mid(valutes_list)
 
-        g.Gui(valutes_list)
+        output_console(valutes_list)
 
-
-
-
+        # g.Gui(valutes_list)
