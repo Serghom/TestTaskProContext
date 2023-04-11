@@ -61,7 +61,7 @@ def output_console(valutes_list):
         print('Введите номер валюты или введите "x" что бы завершить программу')
         answer = input(">> ")
         if answer.isdigit():
-            if int(answer) > len(valutes):
+            if int(answer) > len(valutes) -1:
                 print("Невозможное значение")
             else:
                 get_courses(valutes_list[int(answer)])
